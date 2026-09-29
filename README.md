@@ -1,2 +1,2 @@
 # taskForge
-Task Forge, Sistema Kanbam para gerenciamento de tarefas, desenvolvido para estudo de técnologias para desenvolvimento web
+Task Forge, Sistema Kanbam para gerenciamento de tarefas, desenvolvido para estudo de tecnologias para desenvolvimento web (JavaScript, Node.js, MongoDB e Ejs)

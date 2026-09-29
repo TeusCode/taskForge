@@ -1,0 +1,42 @@
+<%- include('./includes/header')%>
+<%- include('./includes/nav')%>
+
+<style>
+    body{
+        text-align: center;
+    }
+
+    .form-login input, .form-register input{
+        margin-bottom: 10px;
+        padding: 10px;
+        text-align: left name='';
+    }
+
+    .box-form{
+        display: flex;
+       justify-content: center;
+       gap: 20px;
+    }
+    
+</style>
+
+<div class="box-form">
+<form class="form-login" action="/login/logar" method="POST">
+    <h1>Login</h1>
+    <input type="text" name='user' required placeholder="Digite o seu usuário!"> <br>
+    <input type="password" name='password' required placeholder="Digite a sua senha!"><br>
+    <button>Logar</button><br>
+</form>
+
+<br>
+
+<form class="form-register" action="/login/logar" method="POST">
+    <h1>Cadastro</h1>
+    <input type="text" required placeholder="Digite o seu usuário!"><br>
+    <input type="email" required placeholder="Digite o seu email!"><br>
+    <input type="tel" required placeholder="Digite o seu Telefone!"><br>
+    <input type="password" required placeholder="Digite a sua senha!"><br>
+    <button>Cadastrar</button><br>
+</form>
+</div>
+<%- include('./includes/footer')%>
