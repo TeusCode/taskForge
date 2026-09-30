@@ -4,14 +4,9 @@ const express = require('express');
 const chalk = require('chalk');
 const mongoose = require('mongoose');
 const app = express();
-
 //Rotas:
 const port = 5000;
 const routes = require('./routes.js');
-
-//Criando Sessão:
-const session = require('express-session');
-
 //Realizando conexão com banco de dados:
 //IMPORTANTE: o BD, deve se conectar antes do inicio do Servidor, para que o conteúdo esteja pronto para ser carregado na página
 mongoose.connect(process.env.CHAVE,)
@@ -21,12 +16,9 @@ mongoose.connect(process.env.CHAVE,)
 })
 .catch(e=>console.log(e));
 
-app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js
-
 //Configura o viewEngine
 app.set('views', './src/views');//Seta o caminho da pasta views
 app.set('view engine', 'ejs');//Seta qual engine o express, deve utilizar
-
 //Avisa o express, que precisa tratar o req.body (os posts)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());//Parsed de Json para dentro da aplicação
@@ -34,9 +26,7 @@ app.use(express.json());//Parsed de Json para dentro da aplicação
 app.use(express.static('public'));
 app.use('/frontEnd', express.static('frontEnd'));
 
-
-
-
+app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js
 
 
 

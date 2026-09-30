@@ -1,0 +1,11 @@
+<%- include('./includes/header')%>
+<%- include('./includes/nav')%>
+
+    <h1 style="text-align: center; margin-top: 50px;">Tasks HERE!</h1>
+
+    <form style="text-align: center;" action="/task/add" method="POST">
+        <input name="taskName" type="text" placeholder="Task Name"> <br> <br>
+        <button>Adicionar</button>
+    </form>
+
+<%- include('./includes/footer')%>
