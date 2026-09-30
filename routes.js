@@ -14,6 +14,7 @@ route.get('/login',LoginControllers.index);
 //Rotas Tarefas:
 route.get('/tasks',TaskControllers.index);
 route.post('/task/add',TaskControllers.addTask);
+route.get('/tasks',TaskControllers.exibeTasks);
 
 
 

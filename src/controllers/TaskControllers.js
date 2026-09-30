@@ -2,12 +2,27 @@ const taskModel = require('../models/taskModel');
 exports.index = (req,res)=> res.render('task');
 
 exports.addTask = async (req,res) => {
-    if(!req.body) return;
+let erros = [];
+if(!req.body) return;
+const objTask = {taskName: req.body.taskName.trim(),};//Cria Modelo do Objeto
 
-const objTask = {
-    taskName: req.body.taskName,
-};
+//Validação:
+if(objTask.taskName === Number){
+    res.redirect('/task');
+    erros.push('As tarefas não podem precisam ser números');
+    return;
+}
+if(!objTask.taskName){
+    res.redirect('/tasks');
+    erros.push('Você não pode inserir uma tarefa vazia!');
+    return;
+}
 
 await taskModel.addBanco(objTask);
-res.send('DADOS ENVIADOS!');
+res.redirect('/tasks');
 }
+
+exports.exibeTasks = (req,res)=>{
+     res.render('task',taskModel.buscaTasks());
+}
+

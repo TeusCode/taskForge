@@ -14,6 +14,7 @@ mongoose.connect(process.env.CHAVE,)
     app.emit('pronto');//Sinaliza para o ligar o servidor!
     console.log(chalk.bgGreen('Conexão realizada com sucesso, ao banco de dados!'));
 })
+
 .catch(e=>console.log(e));
 
 //Configura o viewEngine

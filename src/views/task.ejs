@@ -8,4 +8,10 @@
         <button>Adicionar</button>
     </form>
 
+    <%=tasks.forEach(()=>{ %>
+        <tr>
+            <td><%=tasks%></td>
+        </tr>
+    <%})  %>
+
 <%- include('./includes/footer')%>
