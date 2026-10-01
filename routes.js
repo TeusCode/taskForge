@@ -12,9 +12,9 @@ route.get('/',HomeControllers.index);
 route.get('/login',LoginControllers.index);
 
 //Rotas Tarefas:
-route.get('/tasks',TaskControllers.index);
+route.get('/tasks',TaskControllers.tasks);
 route.post('/task/add',TaskControllers.addTask);
-route.get('/tasks',TaskControllers.exibeTasks);
+route.post('/task/delete/:id',TaskControllers.deleteTask);
 
 
 

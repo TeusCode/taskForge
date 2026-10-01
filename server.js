@@ -27,8 +27,11 @@ app.use(express.json());//Parsed de Json para dentro da aplicação
 app.use(express.static('public'));
 app.use('/frontEnd', express.static('frontEnd'));
 
-app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js
+const middlewareGlobal = require('./src/middlewares/middlewareglobal');
+//Middleware Glocal
+app.use(middlewareGlobal)
 
+app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js
 
 
 

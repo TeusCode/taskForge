@@ -13,6 +13,11 @@ exports.addBanco = async (dados)=>{
 }
 
 exports.buscaTasks = async ()=>{
-    const tasks = await taskModel.find().sort({criadoEm: 1});
+    const tasks = await taskModel.find();
     return tasks;
+}
+
+exports.deleteTask = async (id)=>{
+    const taksDeletada = await taskModel.findByIdAndDelete(id,{new:true});
+    return;
 }

@@ -8,10 +8,25 @@
         <button>Adicionar</button>
     </form>
 
-    <%=tasks.forEach(()=>{ %>
-        <tr>
-            <td><%=tasks%></td>
-        </tr>
-    <%})  %>
+    <br>
 
+    <%if (tasks.length > 0){%>
+        <table style="margin: auto;">
+        <tr>
+        <th>Tarefa</th>
+        <th>Status</th>
+        <th>Data Criação</th>
+    </tr>
+         <%tasks.forEach(task=>{%>
+        <tr>
+            <td><%=task.taskName%></td>
+            <td><%=task.status%></td>
+            <td><%=task.date.toLocaleDateString('pt-br')%></td>
+            <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button></form></td>
+        </tr>
+         <%})%>
+    </table>  
+    <%}else{%>
+        <p style="text-align: center;">SEM TAREFAS!</p>
+    <%}%>
 <%- include('./includes/footer')%>

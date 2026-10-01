@@ -1,5 +1,11 @@
 const taskModel = require('../models/taskModel');
-exports.index = (req,res)=> res.render('task');
+exports.index = async (req,res)=> {
+    res.render('index');
+};
+
+exports.tasks = async (req,res)=> {
+    res.render('task');
+};
 
 exports.addTask = async (req,res) => {
 let erros = [];
@@ -22,7 +28,12 @@ await taskModel.addBanco(objTask);
 res.redirect('/tasks');
 }
 
-exports.exibeTasks = (req,res)=>{
-     res.render('task',taskModel.buscaTasks());
-}
-
+exports.deleteTask = async (req,res)=>{
+    try {
+        await taskModel.deleteTask(req.params.id);
+        res.redirect('/tasks');
+        return;
+    } catch (error) {
+        console.log(error.mesage);
+    }
+};
