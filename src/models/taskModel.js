@@ -9,7 +9,6 @@ const taskModel = mongoose.model('Task',taskSchema);
 
 exports.addBanco = async (dados)=>{
     await taskModel.create(dados);//Adiciona os dados no BD
-    console.log('Dados adicionados ao banco!');
 }
 
 exports.buscaTasks = async ()=>{
