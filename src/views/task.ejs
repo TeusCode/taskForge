@@ -20,7 +20,7 @@
          <%tasks.forEach(task=>{%>
         <tr>
             <td><%=task.taskName%></td>
-            <td><%=task.status%></td>
+            <td style="color: orangered"><%=task.status%></td>
             <td><%=task.date.toLocaleDateString('pt-br')%></td>
             <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button></form></td>
         </tr>
