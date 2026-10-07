@@ -17,21 +17,6 @@ mongoose.connect(process.env.MONGO_DB)
 
 .catch(e=>console.log(e));
 
-//Session:
-const session = require('express-session');
-const MongoStore = require('connect-mongo').default;
-
-const sessionOptions = {
-    secret: process.env.SECRET, //Chave usada para assinar o identificador da sessão
-    store: MongoStore.create({ client: mongoose.connection.getClient() }),
-    resave: false,//Deve salvar novamente a sessão se não tiver sido modificada?
-    saveUninitialized: false,//Deseja salvar a sessão mesmo estando vazia?
-    cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7,//Tempo de vida do cookie
-    httpOnly: true,
-  }
-}
-
 //Configura o viewEngine
 app.set('views', './src/views');//Seta o caminho da pasta views
 app.set('view engine', 'ejs');//Seta qual engine o express, deve utilizar
@@ -42,19 +27,37 @@ app.use(express.json());//Parsed de Json para dentro da aplicação
 app.use(express.static('public'));
 app.use('/frontEnd', express.static('frontEnd'));
 
-const middlewareGlobal = require('./src/middlewares/middlewareglobal');
-//Middleware Glocal
+//Security - 
+//Cross-Site Request Forgery
+const csrf = require('csurf');
+
+//Session:
+const session = require('express-session');
+const flash = require('connect-flash')
+const MongoStore = require('connect-mongo').default;
+
+const sessionOptions = session({
+    secret: process.env.SECRET, //Chave usada para assinar o identificador da sessão
+    store: MongoStore.create({ client: mongoose.connection.getClient() }),
+    resave: false,//Deve salvar novamente a sessão se não tiver sido modificada?
+    saveUninitialized: false,//Deseja salvar a sessão mesmo estando vazia?
+    cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,//Tempo de vida do cookie
+    httpOnly: true,
+  }
+});
+
+app.use(sessionOptions);
+app.use(csrf());
+app.use(flash());
+
+const {middlewareGlobal,csrfMiddleware} = require('./src/middlewares/middlewares.js');
+
+//Middlewares
 app.use(middlewareGlobal);
+app.use(csrfMiddleware);//Executa a criação de token, em todas requisições
 
 app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js
-
-
-
-
-
-
-
-
 
 //Inicia Servidor
 app.on('pronto',()=>{//Recebe sinal da conexão com BD
@@ -62,5 +65,4 @@ app.on('pronto',()=>{//Recebe sinal da conexão com BD
     console.log(chalk.bgGreen('Servidor iniciado!'));
     console.log('Rodando na porta:',port);
 });
-
 })

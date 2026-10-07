@@ -1,6 +1,9 @@
 //Meu arquivo de rotas!
 const express = require('express');
 const route = express.Router();
+//Middlewares:
+const {checkCsrfMiddleware} = require('./src/middlewares/middlewares');
+
 //Controllers:
 const HomeControllers = require('./src/controllers/HomeControllers');
 const LoginControllers = require('./src/controllers/LoginControllers');

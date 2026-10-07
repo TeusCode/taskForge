@@ -4,6 +4,7 @@
     <h1 style="text-align: center; margin-top: 50px;">Tasks HERE!</h1>
 
     <form style="text-align: center;" action="/task/add" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador-->
         <input name="taskName" type="text" placeholder="Task Name"> <br> <br>
         <button>Adicionar</button>
     </form>
