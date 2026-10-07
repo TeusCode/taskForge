@@ -19,22 +19,18 @@ mongoose.connect(process.env.MONGO_DB)
 
 //Session:
 const session = require('express-session');
+const MongoStore = require('connect-mongo').default;
 
 const sessionOptions = {
     secret: process.env.SECRET, //Chave usada para assinar o identificador da sessão
+    store: MongoStore.create({ client: mongoose.connection.getClient() }),
     resave: false,//Deve salvar novamente a sessão se não tiver sido modificada?
     saveUninitialized: false,//Deseja salvar a sessão mesmo estando vazia?
-    cookie: function(req) {
-    var match = req.url.match(/^\/([^/]+)/);
-    return {
-      path: match ? '/' + match[1] : '/',
-      httpOnly: true,
-      secure: req.secure || false,
-      maxAge: 60000
-    }
+    cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7,//Tempo de vida do cookie
+    httpOnly: true,
   }
 }
-
 
 //Configura o viewEngine
 app.set('views', './src/views');//Seta o caminho da pasta views

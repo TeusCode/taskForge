@@ -24,6 +24,10 @@ if(!objTask.taskName){
     return;
 }
 
+if(erros.length > 0) {
+    
+};
+
 await taskModel.addBanco(objTask);
 res.redirect('/tasks');
 }
