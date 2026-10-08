@@ -51,9 +51,10 @@ app.use(sessionOptions);
 app.use(csrf());
 app.use(flash());
 
-const {middlewareGlobal,csrfMiddleware} = require('./src/middlewares/middlewares.js');
+const {middlewareGlobal,csrfMiddleware, errosMiddleware} = require('./src/middlewares/middlewares.js');
 
 //Middlewares
+app.use(errosMiddleware);
 app.use(middlewareGlobal);
 app.use(csrfMiddleware);//Executa a criação de token, em todas requisições
 

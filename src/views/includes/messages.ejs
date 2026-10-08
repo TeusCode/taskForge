@@ -1,0 +1,21 @@
+<style>
+    .errorBox{
+        margin: auto;
+        width: 50%;
+        height: 50px;
+        border-radius: 5px;
+        text-align: center;
+    }
+</style>
+
+<div class="errorBox">
+    <%if(erros.length > 0 ){%>
+    <%erros.forEach((erro)=>{%>
+        <p class="mesage" style="color: red;"><%= erro %></p>
+    <% })%>
+    <%}else{%>
+      <%sucessos.forEach((sucesso)=>{%>
+        <p class="mesage"  style="color:green;"><%= sucesso %></p>
+    <% })%>
+   <%}%>
+</div>

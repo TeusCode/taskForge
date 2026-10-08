@@ -2,7 +2,7 @@
 const express = require('express');
 const route = express.Router();
 //Middlewares:
-const {checkCsrfMiddleware} = require('./src/middlewares/middlewares');
+const {checkCsrfMiddleware, errosMiddleware} = require('./src/middlewares/middlewares');
 
 //Controllers:
 const HomeControllers = require('./src/controllers/HomeControllers');
@@ -13,6 +13,11 @@ const TaskControllers = require('./src/controllers/TaskControllers');
 route.get('/',HomeControllers.index);
 //Rotas Login:
 route.get('/login',LoginControllers.index);
+route.post('/login/register',LoginControllers.register);
+
+//EM CONSTRUÇÃO...
+route.post('/login/logar',LoginControllers.login);
+
 
 //Rotas Tarefas:
 route.get('/tasks',TaskControllers.tasks);

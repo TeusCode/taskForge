@@ -1,6 +1,8 @@
 <%- include('./includes/header')%>
 <%- include('./includes/nav')%>
 
+    <%- include('./includes/messages') %>
+
     <h1 style="text-align: center; margin-top: 50px;">Tasks HERE!</h1>
 
     <form style="text-align: center;" action="/task/add" method="POST">
@@ -23,7 +25,9 @@
             <td><%=task.taskName%></td>
             <td style="color: orangered"><%=task.status%></td>
             <td><%=task.date.toLocaleDateString('pt-br')%></td>
-            <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button></form></td>
+            <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button>
+                <td><input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador--></td>
+            </form></td>
         </tr>
          <%})%>
     </table>  
