@@ -18,10 +18,12 @@ exports.addBanco = async (dados)=>{
 
 exports.checkUser = async (dados)=>{
     try {
-        if(await userModel.findOne({user:dados.user,email:dados.email})){
-            
-        };
+        const user = await userModel.findOne({
+            user:dados.user,
+            email:dados.email
+        });
+        return user;
     } catch (error) {
-        
+        console.log('Deu erro',error);
     }
 }
