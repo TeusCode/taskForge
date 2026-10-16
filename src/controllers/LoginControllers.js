@@ -22,7 +22,10 @@ exports.register = async (req, res) => {
     req.body.password = bcrypt.hashSync(req.body.password, salt);//Aplica o algoritmo bcrypt fundindo a senha original em texto puro, com o salt, e substitui por uma senha criptografada.
 
     //Verificar se o usuário já existe:
-    if(checkUser(req.body));
+    const userExist = await userModel.checkUser(req.body);
+    if(userExist){
+        erros.push('Usuário ou E-mail já existe!');
+    };
 
     const user = {
         user: req.body.user.trim(),
@@ -46,16 +49,49 @@ exports.register = async (req, res) => {
     });
 }
 
-
-
 //AINDA EM CONSTRUÇÃO...
-exports.login = (req, res) => {
-    res.send(req.body);
-    return;
-}
+exports.login = async (req, res) => {
+    const erros = [];
 
-const checkUser = async (dados) => {
-    const user = await userModel.checkUser(dados.user);
-    if(user) return true;
-    if(!user) return false;
+     //Validações User:
+    if (!req.body.user) erros.push('O usuário não pode ficar em branco!');
+    if (req.body.user.length <= 3) erros.push('O usuário deve conter no minimo 4 caracteres');
+    if (req.body.user.length > 20) erros.push('O seu usuário deve conter no máximo 20 caracteres');
+
+     //Validações Password:
+    if (req.body.password.length < 8) erros.push('A senha deve conter no minimo 8 caracteres');
+
+    //Verifica se o Usuário existe!
+    const userExist = await userModel.checkUser(req.body);
+    if(!userExist) erros.push('Usuário ou senha incorreta!');
+
+    if (erros.length > 0) {
+        req.flash('erros', erros);
+        req.session.save(() => {
+            res.redirect('/login');
+        });
+        return;
+    }
+
+    //Checa as senhas
+    bcrypt.compare(req.body.password, userExist.password, function(err, result) {
+    if(result == true){
+      req.flash('sucessos', 'Login realizado com sucesso!');
+        req.session.save(() => {
+            res.redirect('/');
+        });
+        return;
+    }else{
+        erros.push('Usuário ou senha incorreta!');
+        console.log('DEU ERRO AQUI ZE',err,result);
+    }
+    });
+
+    if (erros.length > 0) {
+        req.flash('erros', erros);
+        req.session.save(() => {
+            res.redirect('/login');
+        });
+        return;
+    }
 }
