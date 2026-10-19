@@ -2,5 +2,9 @@
     <a style=" text-decoration: none; margin-right: 20px;" href="/">Home</a>
     <a style=" text-decoration: none; margin-right: 20px;" href="#">Sobre</a>
     <a style=" text-decoration: none; margin-right: 20px;" href="/tasks">Minhas Tarefas</a>
+    <%if(!user){%>
     <a style=" text-decoration: none; margin-right: 20px;" href="/login">Entrar/Cadastrar</a>
+    <%}else{%>
+    <a style=" text-decoration: none; margin-right: 20px;" href="/login/logout">Sair</a> 
+    <%}%>  
 </nav>

@@ -10,7 +10,11 @@ exports.tasks = async (req,res)=> {
 exports.addTask = async (req,res) => {
 let erros = [];
 if(!req.body) return;
-const objTask = {taskName: req.body.taskName.trim(),};//Cria Modelo do Objeto
+//Cria Modelo do Objeto
+const objTask = {
+    taskName: req.body.taskName.trim(),
+    userId: req.session.user.id
+};
 
 //Validação:
 if(objTask.taskName === Number){
@@ -25,7 +29,11 @@ if(!objTask.taskName){
 }
 
 if(erros.length > 0) {
-    
+    req.flash('erros', erros);
+        req.session.save(() => {
+        res.redirect('/tasks');
+        });
+    return;
 };
 
 await taskModel.addBanco(objTask);

@@ -55,7 +55,7 @@ const {middlewareGlobal,csrfMiddleware, errosMiddleware} = require('./src/middle
 
 //Middlewares
 app.use(errosMiddleware);
-app.use(middlewareGlobal);
+// app.use(middlewareGlobal);
 app.use(csrfMiddleware);//Executa a criação de token, em todas requisições
 
 app.use(routes);//Define para o Express que utilize as rotas do arquivo de routes.js

@@ -2,6 +2,10 @@
 const express = require('express');
 const route = express.Router();
 
+//Middlewares
+const checkAuth = require('./src/middlewares/middlewares').checkAuth;
+const loadTasks = require('./src/middlewares/middlewares').loadTasks;
+
 //Controllers:
 const HomeControllers = require('./src/controllers/HomeControllers');
 const LoginControllers = require('./src/controllers/LoginControllers');
@@ -12,15 +16,14 @@ route.get('/',HomeControllers.index);
 //Rotas Login:
 route.get('/login',LoginControllers.index);
 route.post('/login/register',LoginControllers.register);
-
-//EM CONSTRUÇÃO...
 route.post('/login/logar',LoginControllers.login);
+route.get('/login/logout',LoginControllers.logout);
 
 
 //Rotas Tarefas:
-route.get('/tasks',TaskControllers.tasks);
-route.post('/task/add',TaskControllers.addTask);
-route.post('/task/delete/:id',TaskControllers.deleteTask);
+route.get('/tasks',checkAuth,loadTasks,TaskControllers.tasks);
+route.post('/task/add',checkAuth,TaskControllers.addTask);
+route.post('/task/delete/:id',checkAuth,TaskControllers.deleteTask);
 
 
 

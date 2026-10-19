@@ -12,7 +12,7 @@
     </form>
 
     <br>
-
+    <%if(tasks){%>
     <%if (tasks.length > 0){%>
         <table style="margin: auto;">
         <tr>
@@ -20,6 +20,7 @@
         <th>Status</th>
         <th>Data Criação</th>
     </tr>
+   
          <%tasks.forEach(task=>{%>
         <tr>
             <td><%=task.taskName%></td>
@@ -33,5 +34,6 @@
     </table>  
     <%}else{%>
         <p style="text-align: center;">SEM TAREFAS!</p>
+    <%}%>
     <%}%>
 <%- include('./includes/footer')%>

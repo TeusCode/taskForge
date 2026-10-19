@@ -49,11 +49,12 @@ exports.register = async (req, res) => {
     });
 }
 
-//AINDA EM CONSTRUÇÃO...
 exports.login = async (req, res) => {
     const erros = [];
+    //Verifica se o usuário já está logado:
+    if(req.session.user) erros.push('Você já está logado!');
 
-     //Validações User:
+    //Validações User:
     if (!req.body.user) erros.push('O usuário não pode ficar em branco!');
     if (req.body.user.length <= 3) erros.push('O usuário deve conter no minimo 4 caracteres');
     if (req.body.user.length > 20) erros.push('O seu usuário deve conter no máximo 20 caracteres');
@@ -77,14 +78,19 @@ exports.login = async (req, res) => {
     bcrypt.compare(req.body.password, userExist.password, function(err, result) {
     if(result == true){
       req.flash('sucessos', 'Login realizado com sucesso!');
+      req.session.user = {
+        id:userExist._id,
+        user:userExist.user,
+        email:userExist.email
+      }
         req.session.save(() => {
             res.redirect('/');
         });
         return;
     }else{
         erros.push('Usuário ou senha incorreta!');
-        console.log('DEU ERRO AQUI ZE',err,result);
     }
+
     });
 
     if (erros.length > 0) {
@@ -94,4 +100,9 @@ exports.login = async (req, res) => {
         });
         return;
     }
+}
+
+exports.logout = (req,res) =>{
+    req.session.destroy();
+    res.redirect('/login');
 }
