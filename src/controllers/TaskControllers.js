@@ -10,9 +10,11 @@ exports.tasks = async (req,res)=> {
 exports.addTask = async (req,res) => {
 let erros = [];
 if(!req.body) return;
+
 //Cria Modelo do Objeto
 const objTask = {
     taskName: req.body.taskName.trim(),
+    status: req.body.status,
     userId: req.session.user.id
 };
 
@@ -37,6 +39,7 @@ if(erros.length > 0) {
 };
 
 await taskModel.addBanco(objTask);
+console.log('ADICIONADO AO BANCO!');
 res.redirect('/tasks');
 }
 

@@ -1,0 +1,39 @@
+<%- include('./includes/header')%>
+<%- include('./includes/nav')%>
+
+    <%- include('./includes/messages') %>
+
+    <h1 style="text-align: center; margin-top: 50px;">Tasks HERE!</h1>
+
+    <form style="text-align: center;" action="/task/add" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador-->
+        <input name="taskName" type="text" placeholder="Task Name"> <br> <br>
+        <button>Adicionar</button>
+    </form>
+
+    <br>
+    <%if(tasks){%>
+    <%if (tasks.length > 0){%>
+        <table style="margin: auto;">
+        <tr>
+        <th>Tarefa</th>
+        <th>Status</th>
+        <th>Data Criação</th>
+    </tr>
+   
+         <%tasks.forEach(task=>{%>
+        <tr>
+            <td><%=task.taskName%></td>
+            <td style="color: orangered"><%=task.status%></td>
+            <td><%=task.date.toLocaleDateString('pt-br')%></td>
+            <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button>
+                <td><input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador--></td>
+            </form></td>
+        </tr>
+         <%})%>
+    </table>  
+    <%}else{%>
+        <p style="text-align: center;">SEM TAREFAS!</p>
+    <%}%>
+    <%}%>
+<%- include('./includes/footer')%>

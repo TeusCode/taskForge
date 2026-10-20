@@ -30,6 +30,14 @@ exports.checkAuth = async (req,res,next)=>{
 //Busca tarefas
 exports.loadTasks = async (req,res,next)=>{
     const tasks = await taskMoldel.buscaTasks(req.session.user.id);
+
+    const aFazer = tasks.filter(task=> task.status === 'a_fazer');
+    const emAndamento = tasks.filter(task=> task.status === 'em_andamento');
+    const concluidas = tasks.filter(task=> task.status === 'concluido');
+
     res.locals.tasks = tasks;
+    res.locals.tasksAfazer = aFazer;
+    res.locals.tasksEmAndamento = emAndamento;
+    res.locals.tasksConcluidas = concluidas;
     next();
 }

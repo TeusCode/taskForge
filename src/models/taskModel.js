@@ -4,7 +4,7 @@ const taskSchema = new mongoose.Schema({
     taskName: { type: String},
     userId: {type:String, required:true},
     date: { type: Date, default: Date.now },
-    status: {type:String, default:'pendente'}
+    status: {type:String}
 });
 const taskModel = mongoose.model('Task',taskSchema);
 

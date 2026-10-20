@@ -1,39 +1,45 @@
 <%- include('./includes/header')%>
 <%- include('./includes/nav')%>
 
-    <%- include('./includes/messages') %>
+<%- include('./includes/messages') %>
 
-    <h1 style="text-align: center; margin-top: 50px;">Tasks HERE!</h1>
+ <main>
+      <header>
+        <span>Project / Dev Projects</span>
+        <h1>Board</h1>
+      </header>
+      <!-- COLUNAS -->
+      <section class="columns" dataToken="<%= csrfToken %>">
 
-    <form style="text-align: center;" action="/task/add" method="POST">
-        <input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador-->
-        <input name="taskName" type="text" placeholder="Task Name"> <br> <br>
-        <button>Adicionar</button>
-    </form>
+        <section class="column">
+          <h2 class="column_title">A FAZER</h2>
+          <section class="column_cards a-fazer">
+            <%tasksAfazer.forEach(task =>{%>
+                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+            <%})%>
+            <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
+          </section>
+        </section>
 
-    <br>
-    <%if(tasks){%>
-    <%if (tasks.length > 0){%>
-        <table style="margin: auto;">
-        <tr>
-        <th>Tarefa</th>
-        <th>Status</th>
-        <th>Data Criação</th>
-    </tr>
+        <section class="column">
+          <h2 class="column_title">EM ANDAMENTO</h2>
+          <section class="column_cards em-andamento">
+          <%tasksEmAndamento.forEach(task =>{%>
+                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+            <%})%>
+          </section>
+        </section>
+
+        <section class="column">
+          <h2 class="column_title">CONCLUÍDO</h2>
+          <section class="column_cards finalizado">
+            <%tasksConcluidas.forEach(task =>{%>
+                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+            <%})%>
+            <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
+          </section>
+        </section>
+      </section>
+    </main>
    
-         <%tasks.forEach(task=>{%>
-        <tr>
-            <td><%=task.taskName%></td>
-            <td style="color: orangered"><%=task.status%></td>
-            <td><%=task.date.toLocaleDateString('pt-br')%></td>
-            <td><form action="/task/delete/<%=task.id%>" method="POST"><button>DELETE</button>
-                <td><input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador--></td>
-            </form></td>
-        </tr>
-         <%})%>
-    </table>  
-    <%}else{%>
-        <p style="text-align: center;">SEM TAREFAS!</p>
-    <%}%>
-    <%}%>
 <%- include('./includes/footer')%>
