@@ -24,7 +24,7 @@ route.get('/login/logout',LoginControllers.logout);
 route.get('/tasks',checkAuth,loadTasks,TaskControllers.tasks);
 route.post('/task/add',checkAuth,TaskControllers.addTask);
 route.post('/task/delete/:id',checkAuth,TaskControllers.deleteTask);
-
+route.post('/task/status',checkAuth,TaskControllers.statusTask);
 
 
 

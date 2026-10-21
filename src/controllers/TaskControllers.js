@@ -38,9 +38,10 @@ if(erros.length > 0) {
     return;
 };
 
-await taskModel.addBanco(objTask);
+const task = await taskModel.addBanco(objTask);
 console.log('ADICIONADO AO BANCO!');
-res.redirect('/tasks');
+console.log(task)
+res.json(task);
 }
 
 exports.deleteTask = async (req,res)=>{
@@ -52,3 +53,11 @@ exports.deleteTask = async (req,res)=>{
         console.log(error.mesage);
     }
 };
+
+exports.statusTask = async (req,res)=>{
+    const idTask = req.body.idTask;
+    const newStatus = req.body.status;
+    const task = await taskModel.updateStatus(idTask,newStatus);
+
+    res.redirect('/tasks');
+}

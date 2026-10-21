@@ -9,7 +9,7 @@ const taskSchema = new mongoose.Schema({
 const taskModel = mongoose.model('Task',taskSchema);
 
 exports.addBanco = async (dados)=>{
-    await taskModel.create(dados);//Adiciona os dados no BD
+    return await taskModel.create(dados);//Adiciona os dados no BD
 }
 
 exports.buscaTasks = async (id)=>{
@@ -20,4 +20,13 @@ exports.buscaTasks = async (id)=>{
 exports.deleteTask = async (id)=>{
     const taksDeletada = await taskModel.findByIdAndDelete(id,{new:true});
     return;
+}
+
+exports.updateStatus = async (id, status) =>{
+   const newTask =  await taskModel.findByIdAndUpdate(id,{status:status},{new:true});
+    console.log('STATUS ATUALIZADO NO BANCO!');
+    console.log('ID E STATUS',id, status);
+    console.log('TAREFA:',newTask,'TIPO:',typeof newTask);
+
+    return newTask;
 }

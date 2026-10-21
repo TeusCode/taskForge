@@ -15,7 +15,7 @@
           <h2 class="column_title">A FAZER</h2>
           <section class="column_cards a-fazer">
             <%tasksAfazer.forEach(task =>{%>
-                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false"><%=task.taskName%></section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
           </section>
@@ -25,7 +25,7 @@
           <h2 class="column_title">EM ANDAMENTO</h2>
           <section class="column_cards em-andamento">
           <%tasksEmAndamento.forEach(task =>{%>
-                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false"><%=task.taskName%></section>
             <%})%>
           </section>
         </section>
@@ -34,7 +34,7 @@
           <h2 class="column_title">CONCLUÍDO</h2>
           <section class="column_cards finalizado">
             <%tasksConcluidas.forEach(task =>{%>
-                <section class="cards" draggable="true" contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false"><%=task.taskName%></section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
           </section>
