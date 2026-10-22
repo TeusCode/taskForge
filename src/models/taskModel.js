@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
-    taskName: { type: String},
+    taskTitle:{ type: String, maxlength:40},
+    taskDescription: { type: String, maxlength:300},
     userId: {type:String, required:true},
     date: { type: Date, default: Date.now },
     status: {type:String}
@@ -14,6 +15,7 @@ exports.addBanco = async (dados)=>{
 
 exports.buscaTasks = async (id)=>{
     const tasks = await taskModel.find({userId:id});
+    console.log(tasks);
     return tasks;
 }
 
@@ -23,10 +25,6 @@ exports.deleteTask = async (id)=>{
 }
 
 exports.updateStatus = async (id, status) =>{
-   const newTask =  await taskModel.findByIdAndUpdate(id,{status:status},{new:true});
-    console.log('STATUS ATUALIZADO NO BANCO!');
-    console.log('ID E STATUS',id, status);
-    console.log('TAREFA:',newTask,'TIPO:',typeof newTask);
-
+    const newTask =  await taskModel.findByIdAndUpdate(id,{status:status},{returnDocument: 'after'});
     return newTask;
 }

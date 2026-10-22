@@ -88,6 +88,9 @@ header > h1 {
     0px -1px 0px rgba(105, 105, 105, 0.13);
   margin-bottom: 3px;
   /* transition: border 1s ease; */
+  overflow: hidden;
+  padding-top: 30px;
+  padding-right: 20px;
 }
 
 .column_highlight{
@@ -96,4 +99,20 @@ header > h1 {
     background-color: var(--bg-selected);
     border: 5px;
     border: 2px solid var(--border-selected);
+}
+
+.task-menu{
+  position: absolute;
+  left: 90%;
+  bottom: 45%;
+  border-radius: 100%;
+  padding: 2px;
+}
+
+.task-menu:hover{
+  background-color: rgb(228, 228, 228);
+}
+
+.task-description{
+    all: unset;
 }

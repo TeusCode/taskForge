@@ -62,7 +62,7 @@ const dragDrop = (event) => {
         },
         credentials: 'same-origin',
         body: JSON.stringify({
-          taskName: draggedCard.textContent,
+          taskDescription: draggedCard.textContent,
           status: taskStatus(draggedCard),
           idTask: draggedCard.getAttribute('idTask')
         })
@@ -79,24 +79,47 @@ const dragDrop = (event) => {
 
 const createTask = (event)=>{
     const card = document.createElement('section');
+    const taskDescription = document.createElement('p');
     const elm = event.target;
+    const taskMenu = document.createElement('span');
+    const taskTitle = document.createElement('h3');
 
     if(!elm.classList.contains('column_cards')) return;
 
+    //Adiciona elementos ao card
+    card.appendChild(taskTitle);
+    card.appendChild(taskDescription);
+
     card.classList.add('cards');
-    card.draggable = 'true'; //Torna o card arrastavel
-    card.contentEditable = 'true'; //Torna o conteúdo do elemento editavel
+    taskTitle.classList.add('task-title');
+    taskDescription.classList.add('task-description');
+    taskMenu.classList.add("material-symbols-outlined","task-menu");
+    taskMenu.textContent = "more_vert";
+    
+    //Atribui propriedades manipulaveis aos elementos (arrastar e editar)
+    card.draggable = 'true';
+    taskTitle.contentEditable = 'true';
+    taskDescription.contentEditable = 'true';
+    taskMenu.contentEditable = 'false';
 
     card.addEventListener("dragstart", dragStart);
 
     elm.appendChild(card);
-    card.focus(); //Traz o foco para o card, assim que criado, para adicionar o conteúdo da task
+    
+    taskTitle.focus();
 
-    card.addEventListener('focusout',()=>{
-        if(!card.textContent){
+    card.addEventListener('focusout',(event)=>{
+        if(event.target.classList.contains('task-title')) return;
+          
+        if(!taskDescription.textContent){
             card.remove();
+            return;
         }
         card.contentEditable = 'false';
+
+
+    card.appendChild(taskMenu);
+    
 
     //Pega o token, do ejs
     const token = document.querySelector('.columns').getAttribute('dataToken');
@@ -111,7 +134,8 @@ const createTask = (event)=>{
         },
         credentials: 'same-origin',
         body: JSON.stringify({
-          taskName:`${card.textContent}`,
+          taskTitle:`${taskTitle.textContent}`,
+          taskDescription:`${taskDescription.textContent}`,
           status: taskStatus(card),
         })
       }
@@ -131,7 +155,20 @@ const createTask = (event)=>{
 
     card.addEventListener('keydown',(event)=>{
         if(event.key === 'Enter'){
-            card.contentEditable = 'false';
+
+        if(event.target.classList.contains('task-title')){
+          console.log('Passando para outra tarefa');
+          taskTitle.contentEditable = 'false';
+          taskDescription.focus();
+          return;
+        }
+
+        if(event.target.classList.contains('task-description')){
+          console.log('ELEMENTO descrição');
+          taskDescription.contentEditable = 'false';
+        }
+
+        console.log('EVENTO 3',event.target)
         }
     });
 

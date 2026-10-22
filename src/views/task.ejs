@@ -15,7 +15,14 @@
           <h2 class="column_title">A FAZER</h2>
           <section class="column_cards a-fazer">
             <%tasksAfazer.forEach(task =>{%>
-                <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false">
+                  <h3 class=""><%=task.taskTitle%></h3>
+                  <br>
+                  <p class="task-description"><%=task.taskDescription%></p>
+
+                <span class="material-symbols-outlined task-menu">more_vert</span>
+                
+              </section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
           </section>
@@ -25,7 +32,14 @@
           <h2 class="column_title">EM ANDAMENTO</h2>
           <section class="column_cards em-andamento">
           <%tasksEmAndamento.forEach(task =>{%>
-                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false">
+                <h3 class=""><%=task.taskTitle%></h3>
+                  <br>
+                  <p class="task-description"><%=task.taskDescription%></p>
+
+                <span class="material-symbols-outlined task-menu">more_vert</span>
+
+                </section>
             <%})%>
           </section>
         </section>
@@ -34,7 +48,14 @@
           <h2 class="column_title">CONCLUÍDO</h2>
           <section class="column_cards finalizado">
             <%tasksConcluidas.forEach(task =>{%>
-                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false"><%=task.taskName%></section>
+                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false">
+                  <h3 class=""><%=task.taskTitle%></h3>
+                  <br>
+                  <p class="task-description"><%=task.taskDescription%></p>
+
+                <span class="material-symbols-outlined task-menu">more_vert</span>
+                
+                </section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
           </section>

@@ -13,18 +13,46 @@ if(!req.body) return;
 
 //Cria Modelo do Objeto
 const objTask = {
-    taskName: req.body.taskName.trim(),
+    taskTitle: req.body.taskTitle.trim(),
+    taskDescription: req.body.taskDescription.trim(),
     status: req.body.status,
     userId: req.session.user.id
 };
 
+console.log('MODELO:',objTask)
+
 //Validação:
-if(objTask.taskName === Number){
+if(objTask.taskTitle === Number){
     res.redirect('/task');
-    erros.push('As tarefas não podem precisam ser números');
+    erros.push('O titulo não pode ser um número!');
     return;
 }
-if(!objTask.taskName){
+
+if(objTask.taskTitle.length >= 51){
+    res.redirect('/task');
+    erros.push('O titulo não pode ser um número!');
+    return;
+}
+
+if(!objTask.taskTitle){
+    res.redirect('/tasks');
+    erros.push('Você não pode inserir uma tarefa sem titulo!');
+    return;
+}
+
+if(objTask.taskDescription === Number){
+    res.redirect('/task');
+    erros.push('As tarefas não podem precisam ser números!');
+    return;
+}
+
+if(objTask.taskDescription.length >= 301){
+    res.redirect('/task');
+    erros.push('O titulo não pode ser um número!');
+    return;
+}
+
+if(!objTask.taskDescription){
     res.redirect('/tasks');
     erros.push('Você não pode inserir uma tarefa vazia!');
     return;
