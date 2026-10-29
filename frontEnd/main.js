@@ -1,6 +1,5 @@
 const columns = document.querySelectorAll(".column_cards");
 const cards = document.querySelectorAll(".cards");
-const cardEdit = document.querySelector(".card_edit")
 
 /* Card arrastado */
 let draggedCard;
@@ -64,12 +63,10 @@ const dragDrop = (event) => {
         body: JSON.stringify({
           taskDescription: draggedCard.textContent,
           status: taskStatus(draggedCard),
-          idTask: draggedCard.getAttribute('idTask')
+          idTask: idTask
         })
       }
     ).then((response)=>{
-      console.log('Status do card atualizado!');
-      console.log('id:',draggedCard.getAttribute('idTask'))
     }).catch(e=>{
       console.log(e);
     })
@@ -77,49 +74,74 @@ const dragDrop = (event) => {
   }
 };
 
-const createTask = (event)=>{
-    const card = document.createElement('section');
-    const taskDescription = document.createElement('p');
-    const elm = event.target;
-    const taskMenu = document.createElement('span');
-    const taskTitle = document.createElement('h3');
+const clickCard = (event) =>{
+  const elm = event.target;
+  if(event.target.classList.contains('card-edit')) {editTask(elm.closest('.cards'));};
+  if(event.target.classList.contains('card-delete')) deleteTask(elm.closest('.cards'));
+};
 
+const createTask = (event)=>{
+  //Column
+    const elm = event.target;
+
+  //Card
+    const card = document.createElement('section');
+    card.classList.add('cards');
+
+  //Task Header
+    const cardHeader = document.createElement('div');
+    cardHeader.classList.add('card-header');
+    const boxTaskIcons = document.createElement('div'); //Container com icones (apagar,editar...);
+    boxTaskIcons.classList.add('box-task-icons');
+    const taskTitle = document.createElement('h3');
+    taskTitle.classList.add('task-title');
+
+   //Task Description 
+    const taskDescription = document.createElement('p');
+    taskDescription.classList.add('task-description');
+    
     if(!elm.classList.contains('column_cards')) return;
 
-    //Adiciona elementos ao card
-    card.appendChild(taskTitle);
+    //Adicionando elementos ao cabeçario
+    cardHeader.appendChild(taskTitle);
+    cardHeader.appendChild(boxTaskIcons);
+
+    //Adiciona os elementos ao card
+    card.appendChild(cardHeader);
     card.appendChild(taskDescription);
 
-    card.classList.add('cards');
-    taskTitle.classList.add('task-title');
-    taskDescription.classList.add('task-description');
-    taskMenu.classList.add("material-symbols-outlined","task-menu");
-    taskMenu.textContent = "more_vert";
-    
     //Atribui propriedades manipulaveis aos elementos (arrastar e editar)
     card.draggable = 'true';
     taskTitle.contentEditable = 'true';
     taskDescription.contentEditable = 'true';
-    taskMenu.contentEditable = 'false';
 
-    card.addEventListener("dragstart", dragStart);
+    card.dataset.mode = 'creating';//Seta status de criação
 
     elm.appendChild(card);
     
     taskTitle.focus();
 
     card.addEventListener('focusout',(event)=>{
-        if(event.target.classList.contains('task-title')) return;
+    if(card.dataset.mode !== 'creating') return;
+
+        if(event.target.classList.contains('task-title')){
+          taskDescription.focus();
+          return;
+        }
           
-        if(!taskDescription.textContent){
+        if(!taskTitle.textContent){
             card.remove();
             return;
         }
-        card.contentEditable = 'false';
+        taskTitle.contentEditable = 'false';
+        taskDescription.contentEditable = 'false';
+        
+        //Adiciona icones (edição e deletar)
+        boxTaskIcons.innerHTML = `
+        <i class="fa-solid fa-pen task-icons icons card-edit"></i>
+        <i class="fa-solid fa-trash task-icons icons card-delete"></i>`
 
-
-    card.appendChild(taskMenu);
-    
+        card.dataset.mode = 'saving';
 
     //Pega o token, do ejs
     const token = document.querySelector('.columns').getAttribute('dataToken');
@@ -140,44 +162,143 @@ const createTask = (event)=>{
         })
       }
     ).then(response=>{
+      if(response.ok){
+      card.dataset.mode = 'viewing';
       return response.json();
+      }
+      return;
     })
     .then((dados)=>{
-      console.log('Card adicionado ao banco de dados!');
+      if(!dados) return;
       const idTask = dados._id;
       card.setAttribute('idTask',idTask);
     }).catch(e=>{
       console.log(e);
     })
-        
-
     });
 
     card.addEventListener('keydown',(event)=>{
         if(event.key === 'Enter'){
 
         if(event.target.classList.contains('task-title')){
-          console.log('Passando para outra tarefa');
           taskTitle.contentEditable = 'false';
           taskDescription.focus();
           return;
         }
 
         if(event.target.classList.contains('task-description')){
-          console.log('ELEMENTO descrição');
           taskDescription.contentEditable = 'false';
         }
-
-        console.log('EVENTO 3',event.target)
         }
     });
+    card.addEventListener("click", clickCard); 
+    card.addEventListener("dragstart", dragStart);
+};
 
+const deleteTask = (card)=>{
+const token = document.querySelector('.columns').getAttribute('dataToken');
+const id = card.getAttribute('idtask');
+
+fetch(`http://localhost:5000/task/delete/${id}`,{
+        method: 'DELETE',
+        headers: {
+          'CSRF-Token':`${token}`,
+        },
+        credentials: 'same-origin'
+      }).then((res)=>{
+        card.remove()
+        // window.location.href = '/tasks'; /RECARREGA A PAGINA
+      })
+      .catch(e=>console.log(e));
+};
+
+const editTask = (card)=>{
+if(card.dataset.mode === 'editing') return;//Se o card já estiver em edição não fazer nada
+const token = document.querySelector('.columns').getAttribute('dataToken');
+
+const title = card.querySelector('.task-title');
+const description = card.querySelector('.task-description');
+
+if(!title || !description) return;
+
+const oldTitle = title.textContent;
+
+card.dataset.mode = 'editing';//Seta modo de edição
+
+title.contentEditable = true;
+description.contentEditable = false;
+
+title.textContent = '';
+title.focus();
+
+title.addEventListener('keydown',(event)=>{
+  if(event.key === 'Enter'){
+    event.preventDefault()
+    event.target.blur();
+  }
+    });
+
+title.addEventListener('focusout',(event)=>{
+
+  title.contentEditable = false;
+  description.contentEditable = true;
+
+  description.focus();
+},{once:true});
+
+description.addEventListener('keydown',(event)=>{
+  if(event.key === 'Enter'){
+    event.preventDefault()
+    event.target.blur();
+  }
+    });
+
+description.addEventListener('focusout',(event)=>{
+  let newTitle = title.textContent.trim();
+  const newDescription = description.textContent.trim();
+
+  if(!newTitle){
+    title.textContent = oldTitle
+    newTitle = oldTitle.trim();
+  }
+
+  description.contentEditable = false;
+  title.contentEditable = false;
+  card.dataset.mode = 'viewing';
+
+
+  const newTask = {
+    idTask : card.getAttribute('idTask'),
+    taskTitle : newTitle,
+    taskDescription : newDescription
+  }
+
+  fetch(`http://localhost:5000/task/edit/${newTask.idTask}`,{
+        method: 'PATCH',
+        headers: {
+          'Accept':'application/json',
+          'Content-Type':'application/json',
+          'CSRF-Token':`${token}`,
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(newTask)})
+        .then((res)=>{
+          if(res.status >=200 && res.status <300){
+            console.log('tudo ok...')
+          }else{
+            console.log('ERRO:',res.status);
+          }
+        })
+        .catch(err=>console.log(err));
+
+},{once:true});
 
 };
 
 /* Adiciona em todos os cards, a escuta o inicio do arrasto */
 cards.forEach((card) => {
-  card.addEventListener("dragstart", dragStart);
+card.addEventListener("dragstart", dragStart);
+card.addEventListener("click", clickCard); 
 });
 
 columns.forEach((column) => {
@@ -187,4 +308,3 @@ columns.forEach((column) => {
   column.addEventListener("drop", dragDrop);
   column.addEventListener("dblclick",createTask);
 });
-

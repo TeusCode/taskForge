@@ -15,13 +15,17 @@ exports.addBanco = async (dados)=>{
 
 exports.buscaTasks = async (id)=>{
     const tasks = await taskModel.find({userId:id});
-    console.log(tasks);
     return tasks;
 }
 
 exports.deleteTask = async (id)=>{
     const taksDeletada = await taskModel.findByIdAndDelete(id,{new:true});
     return;
+}
+
+exports.editTask = async (id, task) =>{
+    const newTask =  await taskModel.findByIdAndUpdate(id,task,{returnDocument: 'after'});
+    return newTask;
 }
 
 exports.updateStatus = async (id, status) =>{

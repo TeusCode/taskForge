@@ -23,7 +23,8 @@ route.get('/login/logout',LoginControllers.logout);
 //Rotas Tarefas:
 route.get('/tasks',checkAuth,loadTasks,TaskControllers.tasks);
 route.post('/task/add',checkAuth,TaskControllers.addTask);
-route.post('/task/delete/:id',checkAuth,TaskControllers.deleteTask);
+route.patch('/task/edit/:id',checkAuth,TaskControllers.editTask);
+route.delete('/task/delete/:id',checkAuth,TaskControllers.deleteTask);
 route.post('/task/status',checkAuth,TaskControllers.statusTask);
 
 

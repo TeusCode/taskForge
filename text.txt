@@ -1,21 +1,11 @@
-DESENVOLVIMENTO DE SISTEMA WEB PARA GERENCIAMENTO DE TAREFAS, ATRAVÉS DO MÉTODO KANBAM
+OBJETIVO:
+O Task Forge é um sistema web para organizar tarefas em quadro Kanban, permitindo criar, editar, mover entre status e excluir tarefas. Usuários acessam com conta e veem apenas suas tarefas.
 
-FUNCIONALIDADES:
+FUNCIONALIDADES (ESSENCIAIS):
+ cadastro e login de usuário, criação de tarefa com título obrigatório, descrição opcional, data de criação automática, status inicial "a_fazer". Edição de título, descrição e status, mover entre colunas (a_fazer, em_andamento, concluído), exclusão de tarefa. 
 
-CRUD:
-ADIÇÃO DE TAREFAS NO BANCO OK
-EXIBIÇÃO DE TAREFAS SALVAS NA TELA OK
-EDIÇÃO DE TAREFAS NO BANCO
-REMOÇÃO DE TAREFAS DO BANCO 
-MODIFICAÇÃO DE ESTATUS NA TAREFA (A FAZER, EM ANDAMENTO E CONCLUIDA)
+REGRAS SIMPLES:
+ título com tamanho máximo e campo obrigatório, um usuário só vê as próprias tarefas.
 
-LOGIN E CADASTRO DE USUÁRIO OK
-TAREFAS POR USUÁRIO, RELACIONAL OK
-
-DESIGN:
-DESIGNER BONITO E RESPONSIVO
-ABAS:
-HOME,SOBRE,MINHAS TAREFAS,ENTRAR / CADASTRO E SAIR
-
-
-
+FUNCIONALIDADES (OPCIONAIS):
+ notificações, permissões avançadas, relatórios e integrações.

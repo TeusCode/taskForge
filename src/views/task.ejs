@@ -3,6 +3,7 @@
 
 <%- include('./includes/messages') %>
 
+
  <main>
       <header>
         <span>Project / Dev Projects</span>
@@ -12,16 +13,22 @@
       <section class="columns" dataToken="<%= csrfToken %>">
 
         <section class="column">
-          <h2 class="column_title">A FAZER</h2>
+          <h2 class="column_title">A FAZER <i class="fa-solid fa-clipboard"></i></h2>
           <section class="column_cards a-fazer">
             <%tasksAfazer.forEach(task =>{%>
                 <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false">
-                  <h3 class=""><%=task.taskTitle%></h3>
-                  <br>
-                  <p class="task-description"><%=task.taskDescription%></p>
 
-                <span class="material-symbols-outlined task-menu">more_vert</span>
-                
+                  <div class="card-header">
+                  <h3 class="task-title"><%=task.taskTitle%></h3>
+
+                  <div class="box-task-icons">
+                  <i class="fa-solid fa-pen task-icons icons card-edit"></i>
+                  <i class="fa-solid fa-trash task-icons icons card-delete"></i>
+                  </div>
+                  
+                  </div>
+
+                  <p class="task-description"><%=task.taskDescription%></p>
               </section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
@@ -29,33 +36,45 @@
         </section>
 
         <section class="column">
-          <h2 class="column_title">EM ANDAMENTO</h2>
+          <h2 class="column_title">EM ANDAMENTO<i class="fa-solid fa-spinner"></i></h2>
           <section class="column_cards em-andamento">
           <%tasksEmAndamento.forEach(task =>{%>
-                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false">
-                <h3 class=""><%=task.taskTitle%></h3>
-                  <br>
+                <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false">
+
+                  <div class="card-header">
+                  <h3 class="task-title"><%=task.taskTitle%></h3>
+
+                  <div class="box-task-icons">
+                  <i class="fa-solid fa-pen task-icons icons card-edit"></i>
+                  <i class="fa-solid fa-trash task-icons icons card-delete"></i>
+                  </div>
+
+                  </div>
+
                   <p class="task-description"><%=task.taskDescription%></p>
-
-                <span class="material-symbols-outlined task-menu">more_vert</span>
-
-                </section>
+              </section>
             <%})%>
           </section>
         </section>
 
         <section class="column">
-          <h2 class="column_title">CONCLUÍDO</h2>
+          <h2 class="column_title">CONCLUÍDO<i class="fa-solid fa-flag-checkered"></i></h2>
           <section class="column_cards finalizado">
             <%tasksConcluidas.forEach(task =>{%>
-                <section class="cards" draggable="true" idTask="<%= task._id %>"  contenteditable="false">
-                  <h3 class=""><%=task.taskTitle%></h3>
-                  <br>
-                  <p class="task-description"><%=task.taskDescription%></p>
+                <section class="cards" draggable="true" idTask="<%= task._id %>" contenteditable="false">
 
-                <span class="material-symbols-outlined task-menu">more_vert</span>
-                
-                </section>
+                  <div class="card-header">
+                  <h3 class="task-title"><%=task.taskTitle%></h3>
+
+                  <div class="box-task-icons">
+                  <i class="fa-solid fa-pen task-icons icons card-edit"></i>
+                  <i class="fa-solid fa-trash task-icons icons card-delete"></i>
+                  </div>
+
+                  </div>
+
+                  <p class="task-description"><%=task.taskDescription%></p>
+              </section>
             <%})%>
             <!-- draggable="true" (Permite que possamos arrastar um elemento) -->
           </section>
