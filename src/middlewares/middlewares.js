@@ -7,9 +7,7 @@ exports.errosMiddleware = (req,res,next)=>{
     next();
 }
 
-// exports.middlewareGlobal = async (req,res,next)=>{
-
-// }
+// exports.middlewareGlobal = async (req,res,next)=>{}
 
 //Middleware - Cria token para todas os formulários!
 exports.csrfMiddleware = (req,res,next)=>{
