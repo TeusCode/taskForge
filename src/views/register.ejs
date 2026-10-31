@@ -1,0 +1,87 @@
+
+<%- include('./includes/header') %>
+<%- include('./includes/nav') %>
+
+<%- include('./includes/messages') %>
+
+<main class="auth-page">
+
+    <div class="box-form">
+
+        <!-- CADASTRO -->
+        <form class="form-register" action="/login/register" method="POST">
+
+            <div class="register-heading">
+                <span class="auth-eyebrow">NOVA CONTA</span>
+                <h1>Comece a se organizar.</h1>
+                <p>Crie sua conta e tenha mais controle sobre suas tarefas.</p>
+            </div>
+
+            <div class="auth-fields">
+
+                <label class="auth-field">
+                    <span>Nome de usuário</span>
+                    <input
+                        name="user"
+                        type="text"
+                        required
+                        placeholder="Escolha um usuário"
+                    >
+                </label>
+
+                <label class="auth-field">
+                    <span>E-mail</span>
+                    <input
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="Digite seu e-mail"
+                    >
+                </label>
+
+                <label class="auth-field">
+                    <span>Telefone</span>
+                    <input
+                        name="telefone"
+                        type="tel"
+                        required
+                        placeholder="Digite seu telefone"
+                    >
+                </label>
+
+                <label class="auth-field">
+                    <span>Senha</span>
+                    <input
+                        name="password"
+                        type="password"
+                        required
+                        placeholder="Crie uma senha"
+                    >
+                </label>
+
+                <label class="auth-field">
+                    <span>Confirmar senha</span>
+                    <input
+                        name="passwordConfirm"
+                        type="password"
+                        required
+                        placeholder="Digite novamente sua senha"
+                    >
+                </label>
+
+            </div>
+
+            <button type="submit" class="auth-button">
+                Criar minha conta
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        </form>
+
+    </div>
+
+</main>
+
+<%- include('./includes/footer') %>

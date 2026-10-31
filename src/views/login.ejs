@@ -1,47 +1,66 @@
-<%- include('./includes/header')%>
-<%- include('./includes/nav')%>
 
-<style>
-    body{
-        text-align: center;
-    }
-
-    .form-login input, .form-register input{
-        margin-bottom: 10px;
-        padding: 10px;
-        text-align: left name='';
-    }
-
-    .box-form{
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-    }
-    
-</style>
+<%- include('./includes/header') %>
+<%- include('./includes/nav') %>
 
 <%- include('./includes/messages') %>
 
-<div class="box-form">
-<form class="form-login" action="/login/logar" method="POST">
-    <h1>Login</h1>
-    <input type="text" name='user' required placeholder="Digite o seu usuário!"> <br>
-    <input type="password" name='password' required placeholder="Digite a sua senha!"><br>
-    <button>Logar</button><br>
-    <input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador-->
-</form>
+<main class="auth-page">
 
-<br>
+    <div class="box-form">
 
-<form class="form-register" action="/login/register" method="POST">
-    <h1>Cadastro</h1>
-    <input name="user" type="text" required placeholder="Digite o seu usuário!"><br>
-    <input name="email" type="email" required placeholder="Digite o seu email!"><br>
-    <input name="telefone" type="tel" required placeholder="Digite o seu Telefone!"><br>
-    <input name="password" type="password" required placeholder="Digite a sua senha!"><br>
-     <input name="passwordConfirm" type="password" required placeholder="Confirme a sua senha!"><br>
-    <button>Cadastrar</button><br>
-    <input type="hidden" name="_csrf" value="<%= csrfToken%>"> <!--Token autenticador-->
-</form>
-</div>
-<%- include('./includes/footer')%>
+        <!-- LOGIN -->
+        <form class="form-login" action="/login/logar" method="POST">
+
+            <div class="auth-brand">
+                <span class="auth-brand-icon">TF</span>
+                <span>TASK FORGE</span>
+            </div>
+
+            <div class="auth-heading">
+                <span class="auth-eyebrow">BEM-VINDO DE VOLTA</span>
+                <h1>Entre na sua conta.</h1>
+                <p>Continue organizando suas tarefas e projetos.</p>
+            </div>
+
+            <div class="auth-fields">
+
+                <label class="auth-field">
+                    <span>Usuário</span>
+                    <input
+                        type="text"
+                        name="user"
+                        required
+                        placeholder="Digite seu usuário"
+                    >
+                </label>
+
+                <label class="auth-field">
+                    <span>Senha</span>
+                    <input
+                        type="password"
+                        name="password"
+                        required
+                        placeholder="Digite sua senha"
+                    >
+                </label>
+
+            </div>
+
+            <button type="submit" class="auth-button">
+                Entrar na plataforma
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <div class="auth-footer">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Seu espaço de trabalho, organizado e seguro.</span>
+            </div>
+
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        </form>
+    </div>
+
+</main>
+
+<%- include('./includes/footer') %>

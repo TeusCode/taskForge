@@ -1,3 +1,4 @@
+import apiRequest from './apiRequest.js';
 const columns = document.querySelectorAll(".column_cards");
 const cards = document.querySelectorAll(".cards");
 
@@ -10,7 +11,7 @@ const taskStatus = (card)=>{
       if(card.parentElement.classList.contains('em-andamento')) return 'em_andamento';
       if(card.parentElement.classList.contains('finalizado')) return 'concluido';
       return 'semStatus';
-    }
+    };
 
 //Inicio do arasto!
 const dragStart = (event) => {
@@ -80,7 +81,7 @@ const clickCard = (event) =>{
   if(event.target.classList.contains('card-delete')) deleteTask(elm.closest('.cards'));
 };
 
-const createTask = (event)=>{
+const createTask = async (event)=>{
   //Column
     const elm = event.target;
 
@@ -121,7 +122,7 @@ const createTask = (event)=>{
     
     taskTitle.focus();
 
-    card.addEventListener('focusout',(event)=>{
+    card.addEventListener('focusout',async (event)=>{
     if(card.dataset.mode !== 'creating') return;
 
         if(event.target.classList.contains('task-title')){
@@ -135,6 +136,7 @@ const createTask = (event)=>{
         }
         taskTitle.contentEditable = 'false';
         taskDescription.contentEditable = 'false';
+
         
         //Adiciona icones (edição e deletar)
         boxTaskIcons.innerHTML = `
@@ -146,35 +148,34 @@ const createTask = (event)=>{
     //Pega o token, do ejs
     const token = document.querySelector('.columns').getAttribute('dataToken');
     
+    const cardData = {
+      taskTitle:`${taskTitle.textContent}`,
+      taskDescription:`${taskDescription.textContent}`,
+      status: taskStatus(card)
+    }
+
     //Cria Tarefa no banco
-    fetch('http://localhost:5000/task/add',{
-        method: 'POST',
-        headers: {
-          'Accept':'application/json',
-          'Content-Type':'application/json',
-          'CSRF-Token':`${token}`,
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({
-          taskTitle:`${taskTitle.textContent}`,
-          taskDescription:`${taskDescription.textContent}`,
-          status: taskStatus(card),
-        })
+    try {
+      const request = await apiRequest('http://localhost:5000/task/add','POST',token,cardData);
+      if(!request.ok){
+        window.alert('Não foi possivel salvar o card!');//Adicionar mensagem futuramente!
+        card.remove();
+        return;
       }
-    ).then(response=>{
-      if(response.ok){
+
+      if(request.ok){ 
+      window.alert('Card criado!');//Adicionar mensagem futuramente!
       card.dataset.mode = 'viewing';
-      return response.json();
-      }
+      console.log(request.body)
+      card.setAttribute('idtask',request.body._id);
       return;
-    })
-    .then((dados)=>{
-      if(!dados) return;
-      const idTask = dados._id;
-      card.setAttribute('idTask',idTask);
-    }).catch(e=>{
-      console.log(e);
-    })
+      }
+    } catch (error) {
+      window.alert('Erro de conexão!',error);//Adicionar mensagem futuramente!
+      card.remove();
+      return;
+    }
+
     });
 
     card.addEventListener('keydown',(event)=>{
@@ -195,26 +196,38 @@ const createTask = (event)=>{
     card.addEventListener("dragstart", dragStart);
 };
 
-const deleteTask = (card)=>{
+const deleteTask = async (card)=>{
 const token = document.querySelector('.columns').getAttribute('dataToken');
 const id = card.getAttribute('idtask');
 
-fetch(`http://localhost:5000/task/delete/${id}`,{
-        method: 'DELETE',
-        headers: {
-          'CSRF-Token':`${token}`,
-        },
-        credentials: 'same-origin'
-      }).then((res)=>{
-        card.remove()
-        // window.location.href = '/tasks'; /RECARREGA A PAGINA
-      })
-      .catch(e=>console.log(e));
+const answer = window.confirm('Tem certeza que deseja deletar o card?');//Adicionar mensagem futuramente!
+
+if(!answer){
+  return;
+}
+
+if(answer){
+try {
+  const request = await apiRequest(`http://localhost:5000/task/delete/${id}`,'DELETE',token);
+  if(!request.ok){
+    console.log(request);
+    window.alert('Não foi possivel remover o card!');//Adicionar mensagem futuramente!
+    return;
+  }
+  if(request.ok){
+    window.alert('Card deletado com sucesso!');//Adicionar mensagem futuramente!
+    card.remove();
+    return;
+  }
+} catch (error) {
+  window.alert('Erro de conexão!');//Adicionar mensagem futuramente!
+  return;
+}
+}
 };
 
 const editTask = (card)=>{
 if(card.dataset.mode === 'editing') return;//Se o card já estiver em edição não fazer nada
-const token = document.querySelector('.columns').getAttribute('dataToken');
 
 const title = card.querySelector('.task-title');
 const description = card.querySelector('.task-description');
@@ -222,6 +235,7 @@ const description = card.querySelector('.task-description');
 if(!title || !description) return;
 
 const oldTitle = title.textContent;
+const oldDescription = description.textContent;
 
 card.dataset.mode = 'editing';//Seta modo de edição
 
@@ -253,7 +267,7 @@ description.addEventListener('keydown',(event)=>{
   }
     });
 
-description.addEventListener('focusout',(event)=>{
+description.addEventListener('focusout',async (event)=>{
   let newTitle = title.textContent.trim();
   const newDescription = description.textContent.trim();
 
@@ -264,8 +278,8 @@ description.addEventListener('focusout',(event)=>{
 
   description.contentEditable = false;
   title.contentEditable = false;
-  card.dataset.mode = 'viewing';
 
+  const token = document.querySelector('.columns').getAttribute('dataToken');
 
   const newTask = {
     idTask : card.getAttribute('idTask'),
@@ -273,23 +287,29 @@ description.addEventListener('focusout',(event)=>{
     taskDescription : newDescription
   }
 
-  fetch(`http://localhost:5000/task/edit/${newTask.idTask}`,{
-        method: 'PATCH',
-        headers: {
-          'Accept':'application/json',
-          'Content-Type':'application/json',
-          'CSRF-Token':`${token}`,
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify(newTask)})
-        .then((res)=>{
-          if(res.status >=200 && res.status <300){
-            console.log('tudo ok...')
-          }else{
-            console.log('ERRO:',res.status);
-          }
-        })
-        .catch(err=>console.log(err));
+  //Edita tarefa no banco
+  try {
+    const request = await apiRequest(`http://localhost:5000/task/edit/${newTask.idTask}`,'PATCH',token,newTask);
+
+    if(!request.ok){
+      console.log(request)
+      window.alert('Não foi possivel editar o card!');//Adicionar mensagem futuramente
+      title.textContent = oldTitle;
+      description.textContent = oldDescription
+      return;
+    }
+    if(request.ok){
+      window.alert('Card editado com sucesso!');//Adicionar mensagem futuramente
+      card.dataset.mode = 'viewing';
+      return;
+    }
+  } catch (error) {
+    window.alert('Erro de conexão!');//Adicionar mensagem futuramente
+    title.textContent = oldTitle;
+    description.textContent = oldDescription;
+    console.log(error);
+    return;
+  }
 
 },{once:true});
 

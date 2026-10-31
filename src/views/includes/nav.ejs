@@ -1,34 +1,49 @@
-<style>
- .box-nav-bar{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-
-    background-color: rgb(80, 80, 80);
-    color: white;
-    height: 7vh;
- }   
-
- .nav-bar a{
-    color: white;
- }
-
- .nav-bar a:hover{
-    color: orangered;
- }
-
-</style>
 
 <div class="box-nav-bar">
-    <h3>TASK FORGE</h3>
-<nav class="nav-bar" style="text-align: center;">
-    <a style=" text-decoration: none; margin-right: 20px;" href="/"><i class="fa-solid fa-house"></i> Home </a>
-    <a style=" text-decoration: none; margin-right: 20px;" href="#"><i class="fa-solid fa-info"></i> Sobre </a>
-    <a style=" text-decoration: none; margin-right: 20px;" href="/tasks"><i class="fa-solid fa-list"></i> Tarefas </a>
-    <%if(!user){%>
-    <a style=" text-decoration: none; margin-right: 20px;" href="/login"><i class="fa-solid fa-user-lock"></i> Entrar </a>
-    <%}else{%>
-    <a style=" text-decoration: none; margin-right: 20px;" href="/login/logout"><i class="fa-solid fa-right-to-bracket"></i> Sair </a> 
-    <%}%>  
-</nav>
+
+    <a href="/" class="logo" aria-label="Task Forge - Home">
+        <span class="logo-mark">TF</span>
+        <span class="logo-text">TASK FORGE</span>
+    </a>
+
+    <nav class="nav-bar" aria-label="Navegação principal">
+
+        <a href="/" class="nav-link" title="Home" aria-label="Home">
+            <i class="fa-solid fa-house" aria-hidden="true"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="/about" class="nav-link" title="Sobre" aria-label="Sobre">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <span>Sobre</span>
+        </a>
+
+        <a href="/tasks" class="nav-link" title="Tarefas" aria-label="Tarefas">
+            <i class="fa-solid fa-list-check" aria-hidden="true"></i>
+            <span>Tarefas</span>
+        </a>
+
+        <% if (!user) { %>
+
+            <a href="/login" class="nav-link" title="Entrar" aria-label="Entrar">
+                <i class="fa-solid fa-user-lock" aria-hidden="true"></i>
+                <span>Entrar</span>
+            </a>
+
+            <a href="/register" class="nav-link nav-register" title="Registrar" aria-label="Registrar">
+                <i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+                <span>Registrar</span>
+            </a>
+
+        <% } else { %>
+
+            <a href="/login/logout" class="nav-link nav-logout" title="Sair" aria-label="Sair">
+                <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                <span>Sair</span>
+            </a>
+
+        <% } %>
+
+    </nav>
+
 </div>

@@ -13,8 +13,11 @@ const TaskControllers = require('./src/controllers/TaskControllers');
 
 //Rotas Home:
 route.get('/',HomeControllers.index);
+//Rota About:
+route.get('/about',HomeControllers.about);
 //Rotas Login:
-route.get('/login',LoginControllers.index);
+route.get('/login',LoginControllers.indexLogin);
+route.get('/register',LoginControllers.indexRegister);
 route.post('/login/register',LoginControllers.register);
 route.post('/login/logar',LoginControllers.login);
 route.get('/login/logout',LoginControllers.logout);

@@ -2,7 +2,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
 
-exports.index = (req, res) => res.render('login');
+exports.indexLogin = (req, res) => res.render('login');
+exports.indexRegister = (req, res) => res.render('register');
 
 exports.register = async (req, res) => {
     const erros = [];

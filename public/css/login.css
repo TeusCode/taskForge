@@ -1,0 +1,346 @@
+
+/* =========================================
+   TASK FORGE - AUTHENTICATION
+========================================= */
+
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    width: 100%;
+    max-width: none;
+    min-height: 65vh;
+
+    margin: 0;
+    padding: 55px 20px 70px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(99, 91, 255, 0.06),
+            transparent 45%
+        );
+}
+
+/* =========================================
+   CARD PRINCIPAL
+========================================= */
+
+.box-form {
+    position: relative;
+
+    width: 100%;
+    max-width: 480px;
+
+    margin: 0 auto;
+    padding: 42px;
+
+    background: #ffffff;
+    border: 1px solid #e6eaf1;
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 24px rgba(24, 43, 77, 0.05),
+        0 2px 5px rgba(24, 43, 77, 0.02);
+
+    overflow: hidden;
+}
+
+/* Detalhe superior */
+
+.box-form::before {
+    content: "";
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #5b51df,
+        #968cff,
+        #c2baff
+    );
+}
+
+/* =========================================
+   FORMULÁRIOS
+========================================= */
+
+.box-form > form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    width: 100%;
+    min-width: 0;
+}
+
+/* Cadastro possui mais campos */
+
+.box-form:has(.form-register) {
+    max-width: 530px;
+}
+
+.form-register {
+    gap: 22px;
+}
+
+/* =========================================
+   MARCA TASK FORGE
+========================================= */
+
+.auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    color: #293957;
+
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+}
+
+.auth-brand-icon {
+    display: grid;
+    place-items: center;
+
+    width: 36px;
+    height: 36px;
+
+    color: #ffffff;
+    background: linear-gradient(135deg, #766bf1, #594edb);
+
+    border-radius: 9px;
+
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+/* =========================================
+   CABEÇALHOS
+========================================= */
+
+.auth-heading,
+.register-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-eyebrow {
+    color: var(--primary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.auth-heading h1,
+.register-heading h1 {
+    margin: 0;
+
+    color: var(--title-02);
+    font-size: 1.8rem;
+    font-weight: 750;
+    line-height: 1.25;
+    letter-spacing: -0.8px;
+}
+
+.auth-heading p,
+.register-heading p {
+    margin: 0;
+
+    color: #8491a5;
+    font-size: 0.87rem;
+    line-height: 1.6;
+}
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+.auth-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-register .auth-fields {
+    gap: 14px;
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 100%;
+}
+
+.auth-field span {
+    color: #42516a;
+    font-size: 0.8rem;
+    font-weight: 650;
+}
+
+.auth-field input {
+    width: 100%;
+    height: 48px;
+
+    padding: 0 14px;
+
+    color: var(--title-02);
+    background: #f8f9fc;
+
+    border: 1px solid #e2e7ef;
+    border-radius: 8px;
+
+    outline: none;
+
+    font-size: 0.86rem;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-field input::placeholder {
+    color: #a1adbd;
+}
+
+.auth-field input:hover {
+    border-color: #cbd3e0;
+}
+
+.auth-field input:focus {
+    background: #ffffff;
+    border-color: var(--primary);
+
+    box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.10);
+}
+
+/* =========================================
+   BOTÕES
+========================================= */
+
+.auth-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 100%;
+    min-height: 49px;
+
+    padding: 12px 18px;
+
+    color: #ffffff;
+    background: linear-gradient(110deg, #7167eb, #5b51df);
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 0.88rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow: 0 3px 9px rgba(99, 91, 255, 0.15);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-button:hover {
+    background: linear-gradient(110deg, #6258df, #5045cf);
+
+    box-shadow: 0 5px 13px rgba(99, 91, 255, 0.22);
+
+    transform: translateY(-1px);
+}
+
+.auth-button:active {
+    transform: translateY(0);
+}
+
+.auth-button i {
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+}
+
+.auth-button:hover i {
+    transform: translateX(3px);
+}
+
+/* =========================================
+   RODAPÉ DO LOGIN
+========================================= */
+
+.auth-footer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #edf0f5;
+
+    color: #94a0b2;
+    font-size: 0.73rem;
+}
+
+.auth-footer i {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 600px) {
+    .auth-page {
+        min-height: auto;
+        padding: 30px 14px 45px;
+    }
+
+    .box-form {
+        padding: 32px 25px;
+        border-radius: 13px;
+    }
+
+    .box-form > form {
+        gap: 22px;
+    }
+
+    .form-register {
+        gap: 20px;
+    }
+
+    .auth-heading h1,
+    .register-heading h1 {
+        font-size: 1.6rem;
+    }
+
+    .auth-fields {
+        gap: 15px;
+    }
+
+    .form-register .auth-fields {
+        gap: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    .box-form {
+        padding: 27px 19px;
+    }
+}

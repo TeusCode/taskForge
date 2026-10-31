@@ -1,140 +1,400 @@
-/*CSS CONECTADO!*/
 
-/*CSS Pág TASKS*/
+/* =========================================
+   TASK FORGE - DESIGN SYSTEM
+========================================= */
+
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
+:root {
+  /* Cores principais */
+  --primary: #635bff;
+  --primary-hover: #5148e5;
+
+  /* Textos */
+  --title-color: #64748b;
+  --title-02: #172b4d;
+  --task: #334155;
+  --text-muted: #94a3b8;
+
+  /* Fundos */
+  --bg-page: #f5f7fb;
+  --bg-column-task: #edf1f7;
+  --bg-task: #ffffff;
+
+  /* Estados */
+  --bg-selected: #e8eaff;
+  --border-selected: #635bff;
+
+  /* Bordas e sombras */
+  --border: #e2e8f0;
+  --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 5px 14px rgba(15, 23, 42, 0.10);
+}
+
+/* =========================================
+   RESET
+========================================= */
+
 * {
-  margin: 0px;
-  padding: 0px;
-  box-sizing: border-box; /* Define que o padding será parte do tamanho da box, e não somado*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Inter", sans-serif;
 }
 
-:root {
-  --title-color: #747b8c;
-  --title-02: #182b4d;
-  --task: #4d5c7e;
-  --bg-column-task: #f4f5f7;
-  --bg-task: white;
-  --bg-selected: #deebff;
-  --border-selected: #2482ff;
+body {
+  background-color: var(--bg-page);
+  color: var(--task);
 }
+
+/* =========================================
+   CONTEÚDO PRINCIPAL
+========================================= */
 
 main {
-  padding: 25px;
-  user-select: none; /* Impede que selecionemos os elementos HTML */
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 35px 40px;
+  user-select: none;
 }
 
-header > span {
-  color: var(--title-color);
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  font-size: 0.8em;
+main > header {
+  margin-bottom: 30px;
 }
 
-header > h1 {
-  color: var(--title-02);
+main > header > span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 20px;
-  font-size: 2em;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
 }
+
+main > header > h1 {
+  color: var(--title-02);
+  font-size: 2rem;
+  font-weight: 750;
+  letter-spacing: -1px;
+}
+
+/* =========================================
+   ÁREA DAS COLUNAS
+========================================= */
+
 .columns {
   display: flex;
-  flex-wrap: nowrap;
-  height: 70dvh; /* Dinamic view height (tamanho da altura da tela, porém sem barras, que existem principalmente no mobile */
-  border-radius: 10px;
-  margin-top: 20px;
-  gap: 15px;
-  justify-content: space-evenly;
+  align-items: stretch;
+  gap: 22px;
+  width: 100%;
+  min-height: 70dvh;
 }
 
+/* =========================================
+   COLUNAS
+========================================= */
+
 .column {
-  width: 100%;
-  border-radius: 8px;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 18px;
   background-color: var(--bg-column-task);
-  flex: 0 1 25%;  
+  border: 1px solid #e8edf5;
+  border-radius: 14px;
 }
 
 .column_title {
-  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: var(--title-color);
-  padding-bottom: 20px;
+  font-size: 0.85rem;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  padding: 2px 3px 18px;
 }
+
+.column_title i {
+  font-size: 1rem;
+  color: var(--primary);
+}
+
+/* =========================================
+   ÁREA DOS CARDS
+========================================= */
 
 .column_cards {
-  /* background-color: green; */
-  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 200px;
+  min-width: 0;
+  padding: 2px 4px 8px 2px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 8px;
   color: var(--task);
-  height: 100%;
-  border-radius: 5px;
-  padding: 5px;
-  overflow: auto;
+
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
 }
+
+.column_cards::-webkit-scrollbar {
+  width: 5px;
+}
+
+.column_cards::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* =========================================
+   CARDS
+========================================= */
 
 .cards {
-  font-size: 0.8em;
-  font-weight: 500;
-  background-color: var(--bg-task);
-  padding: 12px 14px;
   width: 100%;
-  min-height: 70px;
-  min-width: 78px;
-  border-radius: 3px;
-  border: 1px #63749c44 solid;
-  box-shadow:
-    0px 3px 3px rgba(105, 105, 105, 0.13),
-    0px -1px 0px rgba(105, 105, 105, 0.13);
-  margin-bottom: 4px;
-  /* transition: border 1s ease; */
+  min-width: 0;
+  min-height: 85px;
+  padding: 16px;
+  background-color: var(--bg-task);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  box-shadow: var(--shadow-card);
+
+  font-size: 0.85rem;
+  font-weight: 500;
+
+  overflow-wrap: anywhere;
   overflow: hidden;
-  padding-top: 30px;
-  padding-right: 20px;
+
+  cursor: grab;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.column_highlight{
-    transition: border  1s ease;
-    transition: background-color  0.8s ease;
-    background-color: var(--bg-selected);
-    border: 5px;
-    border: 2px solid var(--border-selected);
+.cards:hover {
+  border-color: #cbd5e1;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
 }
 
-.task-menu{
-  padding: 3px;
+.cards:active {
+  cursor: grabbing;
 }
 
-.task-menu:hover{
-  background-color: rgb(247, 244, 244);
-  border-radius: 50%;
-  padding: 3px;
-}
+/* =========================================
+   CABEÇALHO DOS CARDS
+========================================= */
 
-.task-description{
-  all: unset;
-  border-radius: 5px;
-  border: 0px;
-}
-
-.task-title{ 
-  all: unset;
-  padding: 3px;
-}
-
-.task-title{
-  font-weight: bolder;
-}
-
-.card-header{
+.card-header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
-.box-task-icons{
-  font-size: 1.3em;
+.task-title {
+  all: unset;
+  display: block;
+  flex: 1;
+  min-width: 0;
+
+  color: var(--title-02);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
 }
 
-.box-task-icons .task-icons:hover{
- color:rgb(36, 220, 245);
+.task-description {
+  all: unset;
+  display: block;
+
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
+
+/* =========================================
+   ÍCONES DOS CARDS
+========================================= */
+
+.box-task-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+.box-task-icons .task-icons {
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.box-task-icons .card-edit:hover {
+  color: var(--primary);
+  transform: scale(1.12);
+}
+
+.box-task-icons .card-delete:hover {
+  color: #ef4444;
+  transform: scale(1.12);
+}
+
+/* =========================================
+   DESTAQUE AO ARRASTAR CARDS
+========================================= */
+
+.column_highlight {
+  background-color: var(--bg-selected);
+  border: 2px solid var(--border-selected);
+  transition:
+    background-color 0.25s ease,
+    border 0.25s ease;
+}
+
+/* =========================================
+   EDIÇÃO DOS CARDS
+========================================= */
+
+.task-title:focus,
+.task-description:focus {
+  outline: 2px solid #c7d2fe;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* =========================================
+   PÁGINA SOBRE
+========================================= */
+
+.about-taskforge {
+  max-width: 850px;
+  margin: 40px auto;
+  padding: 35px;
+
+  background-color: var(--bg-task);
+  color: var(--task);
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  line-height: 1.7;
+  box-shadow: var(--shadow-card);
+}
+
+.about-taskforge h2 {
+  color: var(--title-02);
+  font-size: 1.5rem;
+  margin: 30px 0 15px;
+}
+
+.about-taskforge h2:first-child {
+  margin-top: 0;
+}
+
+.about-taskforge p {
+  color: var(--task);
+  font-size: 1rem;
+  margin-bottom: 18px;
+}
+
+.about-taskforge strong {
+  color: var(--title-02);
+  font-weight: 600;
+}
+
+.about-taskforge ul {
+  padding-left: 25px;
+  margin: 15px 0 20px;
+}
+
+.about-taskforge li {
+  color: var(--task);
+  margin-bottom: 10px;
+}
+
+.about-taskforge li::marker {
+  color: var(--primary);
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 900px) {
+  main {
+    padding: 28px 20px;
+  }
+
+  .columns {
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .column {
+    flex: 0 0 280px;
+  }
+}
+
+@media (max-width: 600px) {
+  main {
+    padding: 24px 14px;
+  }
+
+  main > header > h1 {
+    font-size: 1.7rem;
+  }
+
+  .columns {
+    flex-direction: column;
+    overflow-x: visible;
+    min-height: auto;
+  }
+
+  .column {
+    flex: none;
+    width: 100%;
+    min-height: 280px;
+  }
+
+  .column_cards {
+    min-height: 180px;
+    max-height: 350px;
+  }
+
+  .about-taskforge {
+    margin: 20px 12px;
+    padding: 22px;
+  }
+
+  .about-taskforge h2 {
+    font-size: 1.3rem;
+  }
+
+  .about-taskforge p,
+  .about-taskforge li {
+    font-size: 0.95rem;
+  }
+}
+

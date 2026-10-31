@@ -1,21 +1,138 @@
 <style>
-    .errorBox{
-        margin: auto;
-        width: 50%;
-        height: 50px;
-        border-radius: 5px;
-        text-align: center;
-    }
-</style>
+    
+/* =========================================
+   FLASH MESSAGES
+========================================= */
 
-<div class="errorBox">
-    <%if(erros.length > 0 ){%>
-    <%erros.forEach((erro)=>{%>
-        <p class="mesage" style="color: red;"><%= erro %></p>
-    <% })%>
-    <%}else{%>
-      <%sucessos.forEach((sucesso)=>{%>
-        <p class="mesage"  style="color:green;"><%= sucesso %></p>
-    <% })%>
-   <%}%>
+.flash-messages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 18px 15px 0;
+
+    pointer-events: none;
+}
+
+/* Estrutura da mensagem */
+
+.flash-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: fit-content;
+    max-width: min(100%, 550px);
+    min-width: 280px;
+
+    padding: 14px 18px;
+
+    border: 1px solid transparent;
+    border-radius: 11px;
+
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+
+    animation: message-entry 0.35s ease both;
+}
+
+/* Texto */
+
+.flash-message p {
+    margin: 0;
+
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+/* Ícones */
+
+.flash-message i {
+    flex-shrink: 0;
+    font-size: 1.15rem;
+}
+
+/* =========================================
+   MENSAGEM DE SUCESSO
+========================================= */
+
+.flash-message--success {
+    color: #15803d;
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.flash-message--success i {
+    color: #16a34a;
+}
+
+/* =========================================
+   MENSAGEM DE ERRO
+========================================= */
+
+.flash-message--error {
+    color: #b91c1c;
+    background-color: #fef2f2;
+    border-color: #fecaca;
+}
+
+.flash-message--error i {
+    color: #dc2626;
+}
+
+/* =========================================
+   ANIMAÇÃO
+========================================= */
+
+@keyframes message-entry {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 600px) {
+    .flash-message {
+        width: 100%;
+        min-width: 0;
+        padding: 13px 14px;
+    }
+}
+
+</style>
+<div class="flash-messages" aria-live="polite">
+
+    <% if (erros.length > 0) { %>
+
+        <% erros.forEach((erro) => { %>
+            <div class="flash-message flash-message--error" role="alert">
+                <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+                <p><%= erro %></p>
+            </div>
+        <% }) %>
+
+    <% } else if (sucessos.length > 0) { %>
+
+        <% sucessos.forEach((sucesso) => { %>
+            <div class="flash-message flash-message--success" role="status">
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                <p><%= sucesso %></p>
+            </div>
+        <% }) %>
+
+    <% } %>
+
 </div>

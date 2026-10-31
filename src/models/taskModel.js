@@ -19,7 +19,7 @@ exports.buscaTasks = async (id)=>{
 }
 
 exports.deleteTask = async (id)=>{
-    const taksDeletada = await taskModel.findByIdAndDelete(id,{new:true});
+    const taskDeletada = await taskModel.findByIdAndDelete(id,{new:true});
     return;
 }
 

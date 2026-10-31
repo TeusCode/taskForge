@@ -114,20 +114,28 @@ if(erros.length > 0) {
 
 try {
     const task = await taskModel.editTask(req.params.id,objTask);
-    res.sendStatus(200);
+      res.status(200).json({
+        message: 'Tarefa atualizada!',
+        task: task
+    });
 } catch (error) {
-    res.sendStatus(400);
-    console.log(error);
+    res.status(400).json({
+        message: 'Não foi possível atualizar a tarefa.'
+    });
 }
 }
 
 exports.deleteTask = async (req,res)=>{
     try {
         await taskModel.deleteTask(req.params.id);
-        res.sendStatus(200);
+        res.status(200).json({
+        message: 'Tarefa deletada!',
+    });
         return;
     } catch (error) {
-        console.log(error.mesage);
+        res.status(400).json({
+        message: 'Não foi possível deletar a tarefa.'
+    });
     }
 };
 
