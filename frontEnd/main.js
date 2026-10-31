@@ -1,6 +1,7 @@
-import apiRequest from './apiRequest.js';
+import apiRequest from './apiRequest.js';//Importando Api que faz as requisições
 const columns = document.querySelectorAll(".column_cards");
 const cards = document.querySelectorAll(".cards");
+const origin = window.location.origin;//Origem do url de acesso
 
 /* Card arrastado */
 let draggedCard;
@@ -10,6 +11,7 @@ const taskStatus = (card)=>{
       if(card.parentElement.classList.contains('a-fazer')) return 'a_fazer';
       if(card.parentElement.classList.contains('em-andamento')) return 'em_andamento';
       if(card.parentElement.classList.contains('finalizado')) return 'concluido';
+      console.log(card,'editado!');
       return 'semStatus';
     };
 
@@ -40,7 +42,7 @@ const dragLeave = (event) => {
   elm.classList.remove("column_highlight");
 };
 
-const dragDrop = (event) => {
+const dragDrop = async (event) => {
   const elm = event.target;
   const idTask = draggedCard.getAttribute('idTask');
 
@@ -53,25 +55,24 @@ const dragDrop = (event) => {
     const token = document.querySelector('.columns').getAttribute('dataToken');
     
     //Mudar status da task
-    fetch('http://localhost:5000/task/status',{
-        method: 'POST',
-        headers: {
-          'Accept':'application/json',
-          'Content-Type':'application/json',
-          'CSRF-Token':`${token}`,
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({
+
+    try {
+      const request = await apiRequest(`${origin}/task/status`,'POST',token,
+        {
           taskDescription: draggedCard.textContent,
           status: taskStatus(draggedCard),
           idTask: idTask
-        })
+        });
+      if(!request.ok){
+        window.alert('Não foi possivel alterar o status da tarefa!');
+        return;
       }
-    ).then((response)=>{
-    }).catch(e=>{
-      console.log(e);
-    })
-
+      return;
+    } catch (error) {
+      console.log(error);
+      window.alert('Erro de conexão!');
+      return;
+    }
   }
 };
 
@@ -125,19 +126,12 @@ const createTask = async (event)=>{
     card.addEventListener('focusout',async (event)=>{
     if(card.dataset.mode !== 'creating') return;
 
-        if(event.target.classList.contains('task-title')){
-          taskDescription.focus();
-          return;
-        }
-          
-        if(!taskTitle.textContent){
-            card.remove();
-            return;
-        }
+        if(event.target.classList.contains('task-title')) return taskDescription.focus();
+        if(!taskTitle.textContent) return card.remove();
+       
         taskTitle.contentEditable = 'false';
         taskDescription.contentEditable = 'false';
-
-        
+     
         //Adiciona icones (edição e deletar)
         boxTaskIcons.innerHTML = `
         <i class="fa-solid fa-pen task-icons icons card-edit"></i>
@@ -156,7 +150,8 @@ const createTask = async (event)=>{
 
     //Cria Tarefa no banco
     try {
-      const request = await apiRequest('http://localhost:5000/task/add','POST',token,cardData);
+      console.log(origin)
+      const request = await apiRequest(`${origin}/task/add/`,'POST',token,cardData);
       if(!request.ok){
         window.alert('Não foi possivel salvar o card!');//Adicionar mensagem futuramente!
         card.remove();
@@ -165,13 +160,13 @@ const createTask = async (event)=>{
 
       if(request.ok){ 
       window.alert('Card criado!');//Adicionar mensagem futuramente!
-      card.dataset.mode = 'viewing';
+      card.dataset.mode = 'viewing';//da status de concluído para criação do card
       console.log(request.body)
       card.setAttribute('idtask',request.body._id);
       return;
       }
     } catch (error) {
-      window.alert('Erro de conexão!',error);//Adicionar mensagem futuramente!
+      window.alert('Erro de conexão!');//Adicionar mensagem futuramente!
       card.remove();
       return;
     }
@@ -187,9 +182,8 @@ const createTask = async (event)=>{
           return;
         }
 
-        if(event.target.classList.contains('task-description')){
-          taskDescription.contentEditable = 'false';
-        }
+        if(event.target.classList.contains('task-description')) taskDescription.contentEditable = 'false';
+  
         }
     });
     card.addEventListener("click", clickCard); 
@@ -202,13 +196,10 @@ const id = card.getAttribute('idtask');
 
 const answer = window.confirm('Tem certeza que deseja deletar o card?');//Adicionar mensagem futuramente!
 
-if(!answer){
-  return;
-}
-
-if(answer){
+if(!answer) return;
+  
 try {
-  const request = await apiRequest(`http://localhost:5000/task/delete/${id}`,'DELETE',token);
+  const request = await apiRequest(`${origin}/task/delete/${id}`,'DELETE',token);
   if(!request.ok){
     console.log(request);
     window.alert('Não foi possivel remover o card!');//Adicionar mensagem futuramente!
@@ -224,7 +215,6 @@ try {
   return;
 }
 }
-};
 
 const editTask = (card)=>{
 if(card.dataset.mode === 'editing') return;//Se o card já estiver em edição não fazer nada
@@ -289,7 +279,7 @@ description.addEventListener('focusout',async (event)=>{
 
   //Edita tarefa no banco
   try {
-    const request = await apiRequest(`http://localhost:5000/task/edit/${newTask.idTask}`,'PATCH',token,newTask);
+    const request = await apiRequest(`${origin}/task/edit/${newTask.idTask}`,'PATCH',token,newTask);
 
     if(!request.ok){
       console.log(request)

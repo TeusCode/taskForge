@@ -18,5 +18,4 @@ const apiRequest = async (endPoint,method,token,data)=>{
         body: body
     }
 }
-
 export default apiRequest;

@@ -144,10 +144,12 @@ exports.statusTask = async (req,res)=>{
     const newStatus = req.body.status;
     try{
         const task = await taskModel.updateStatus(idTask,newStatus);
+        res.status(200).json(newStatus);
+        return;
     }catch(e){
-        console.log(e)
+        console.log(e);
+        res.status(500).json({
+        message: 'Erro ao atualizar o status da tarefa!'});
+        return;
     }
-    res.redirect('/tasks');
 };
-
-
