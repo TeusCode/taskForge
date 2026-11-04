@@ -399,3 +399,136 @@ main > header > h1 {
   }
 }
 
+
+/* ==========================
+   HOME - TASK FORGE
+========================== */
+
+.home-container {
+    max-width: 1150px;
+    width: 90%;
+    margin: 60px auto;
+}
+
+/* APRESENTAÇÃO */
+
+.home-hero {
+    text-align: center;
+    padding: 65px 25px;
+    background: #f1f2f4;
+    border-radius: 16px;
+    margin-bottom: 65px;
+}
+
+.home-tag {
+    display: inline-block;
+    padding: 7px 14px;
+    background: #deebff;
+    color: #2482ff;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+.home-subtitle {
+    font-size: 19px;
+    color: #4d5c7e;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.home-description {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #747b8c;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* SOBRE A APLICAÇÃO */
+
+.home-about {
+    text-align: center;
+}
+
+.home-about h2 {
+    font-size: 27px;
+    color: #182b4d;
+    margin-bottom: 15px;
+}
+
+.home-about > p {
+    max-width: 700px;
+    margin: 0 auto;
+    color: #747b8c;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+/* CARDS */
+
+.home-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 40px;
+}
+
+.feature-card {
+    background: #fff;
+    border: 1px solid #e5e8ee;
+    border-radius: 12px;
+    padding: 30px 25px;
+    text-align: left;
+    transition: 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: #2482ff;
+    box-shadow: 0 8px 24px rgba(24, 43, 77, 0.07);
+}
+
+.feature-card h3 {
+    color: #182b4d;
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #747b8c;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+    .home-container {
+        margin: 35px auto;
+    }
+
+    .home-hero {
+        padding: 45px 20px;
+        margin-bottom: 45px;
+    }
+
+    .home-hero h1 {
+        font-size: 36px;
+    }
+
+    .home-subtitle {
+        font-size: 16px;
+    }
+
+    .home-features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .feature-card {
+        padding: 25px 20px;
+    }
+}

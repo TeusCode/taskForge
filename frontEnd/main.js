@@ -11,7 +11,6 @@ const taskStatus = (card)=>{
       if(card.parentElement.classList.contains('a-fazer')) return 'a_fazer';
       if(card.parentElement.classList.contains('em-andamento')) return 'em_andamento';
       if(card.parentElement.classList.contains('finalizado')) return 'concluido';
-      console.log(card,'editado!');
       return 'semStatus';
     };
 
@@ -69,7 +68,6 @@ const dragDrop = async (event) => {
       }
       return;
     } catch (error) {
-      console.log(error);
       window.alert('Erro de conexão!');
       return;
     }
@@ -150,7 +148,6 @@ const createTask = async (event)=>{
 
     //Cria Tarefa no banco
     try {
-      console.log(origin)
       const request = await apiRequest(`${origin}/task/add/`,'POST',token,cardData);
       if(!request.ok){
         window.alert('Não foi possivel salvar o card!');//Adicionar mensagem futuramente!
@@ -161,7 +158,6 @@ const createTask = async (event)=>{
       if(request.ok){ 
       window.alert('Card criado!');//Adicionar mensagem futuramente!
       card.dataset.mode = 'viewing';//da status de concluído para criação do card
-      console.log(request.body)
       card.setAttribute('idtask',request.body._id);
       return;
       }
@@ -201,7 +197,6 @@ if(!answer) return;
 try {
   const request = await apiRequest(`${origin}/task/delete/${id}`,'DELETE',token);
   if(!request.ok){
-    console.log(request);
     window.alert('Não foi possivel remover o card!');//Adicionar mensagem futuramente!
     return;
   }
@@ -282,7 +277,6 @@ description.addEventListener('focusout',async (event)=>{
     const request = await apiRequest(`${origin}/task/edit/${newTask.idTask}`,'PATCH',token,newTask);
 
     if(!request.ok){
-      console.log(request)
       window.alert('Não foi possivel editar o card!');//Adicionar mensagem futuramente
       title.textContent = oldTitle;
       description.textContent = oldDescription
@@ -297,7 +291,6 @@ description.addEventListener('focusout',async (event)=>{
     window.alert('Erro de conexão!');//Adicionar mensagem futuramente
     title.textContent = oldTitle;
     description.textContent = oldDescription;
-    console.log(error);
     return;
   }
 
